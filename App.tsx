@@ -7,10 +7,11 @@ import Settings from './components/Settings';
 import Help from './components/Help';
 import ToolPage from './components/ToolPage';
 import APIKeyStatus from './components/APIKeyStatus';
+import PromptLibrary from './components/PromptLibrary';
 import { AI_TOOLS } from './constants';
 
 // The view can be a standard page or a specific tool ID.
-export type View = 'home' | 'dashboard' | 'settings' | 'help' | string;
+export type View = 'home' | 'dashboard' | 'settings' | 'help' | 'prompt-library' | string;
 
 function App() {
   const [activeView, setActiveView] = useState<View>('home');
@@ -26,9 +27,11 @@ function App() {
         return <Settings />;
       case 'help':
         return <Help />;
+      case 'prompt-library':
+        return <PromptLibrary />;
       default:
         // Check if it's a tool ID
-        if (AI_TOOLS.some(tool => tool.id === activeView)) {
+        if (AI_TOOLS.filter(t => !t.isPromptOnly).some(tool => tool.id === activeView)) {
           return <ToolPage toolId={activeView} setActiveView={setActiveView} />;
         }
         // Fallback to home if view is unknown

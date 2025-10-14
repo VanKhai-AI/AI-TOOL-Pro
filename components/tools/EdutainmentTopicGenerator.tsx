@@ -51,50 +51,47 @@ const EdutainmentTopicGenerator: React.FC = () => {
     const [isCopied, setIsCopied] = useState(false);
 
     const getPrompt = () => {
-      return `ROLE: You are a world-class YouTube Topic Generation Expert specializing in engaging, visually-rich Edutainment content for the '${channelName}' channel. Your mission is to apply proven title formulas to create compelling, curiosity-driven, and informative topic ideas optimized for views and watch time.
+      return `ROLE: You are a Creative Strategist for a wildly popular Edutainment channel known for its witty, charming, and simple explanations of complex topics. Your mission is to generate ${topicCount} irresistible topic ideas about "${userTopic}" for the channel '${channelName}'.
 
-OBJECTIVE: Generate exactly ${topicCount} unique YouTube topic ideas in ENGLISH about "${userTopic}". For each idea, provide a full analysis in the required JSON format.
+OBJECTIVE: Generate exactly ${topicCount} unique YouTube topic ideas in ENGLISH. For each idea, provide a full analysis in the required JSON format.
 
 CHANNEL STYLE ANALYSIS (STRICTLY ENFORCE):
-- Core Keywords: Prioritize words and phrases like "Science", "Technology", "Explained", "How it Works", "Deep Dive", "Myths vs. Facts", "Amazing", "Incredible", "What If", "Future", "Universe", "Human Body", "Mind-Blowing". Use intriguing questions and bold statements.
-- Delivery Style: Emphasize clear, accessible explanations of complex subjects, using analogies and strong visual storytelling. The tone must be curious, enthusiastic, authoritative but friendly, and inspiring, sparking a desire for learning.
-- Hook Elements: Tap into fundamental human curiosity about **big questions (What If?)**, **the inner workings of everyday things**, **surprising scientific truths that challenge intuition**, **future technologies and their impact**, and **the scale of the universe or the complexity of the microscopic world**.
+- Core Keywords: Prioritize words and phrases like "Science", "Technology", "Explained", "How it Works", "What If", "Future", "Universe", "Human Body", "Mind-Blowing". Use intriguing questions, bold statements, and a touch of humor.
+- Delivery Style: Emphasize clear, accessible, and **hilarious** explanations of complex subjects, using clever analogies and strong visual storytelling. The tone must be curious, enthusiastic, witty, and inspiring, sparking a desire for learning.
+- Hook Elements: Tap into fundamental human curiosity with **big, absurd questions (What If?)**, **the secret workings of everyday things**, and **surprising scientific truths that feel like magic**.
 
 USER-PROVIDED SUBJECT:
 ${userTopic}
 
 3 TITLE FORMULAS (MANDATORY APPLICATION):
-You must generate titles based on the following 3 formulas. Aim for a balanced number of titles from each formula to reach the total of ${topicCount}.
+Apply the following formulas, ensuring a witty and playful tone.
 
-Formula 1: The "Big Question / What If" Formula ( khơi gợi trí tưởng tượng)
-• Structure: \`[What If / What Would Happen If] + [Extraordinary Scenario] + [Intriguing Consequence or Simple Explanation]\`
-• Purpose: Hooks the viewer with a grand, hypothetical scenario that stimulates imagination and promises a fascinating exploration. Example: \`What If You Fell Into a Black Hole? The Terrifying Science Explained\`
+Formula 1: The "Big, Fun Question / What If" Formula (sparks imagination and laughter)
+• Structure: \`[What If / What Would Happen If] + [Extraordinary or Absurd Scenario] + [Intriguing Consequence]\`
+• Purpose: Hooks the viewer with a grand, often funny, hypothetical scenario. Example: \`What If You Sneezed at the Speed of Light?\`
 
-Formula 2: The "Explained / Deep Dive" Formula (làm sáng tỏ sự phức tạp)
+Formula 2: The "Explained with a Twist" Formula (demystifies complexity)
 • Structure: \`[The Surprising Science Of / How] + [Complex or Everyday Subject] + [Actually Works / Is About to Change Everything]\`
-• Purpose: Piques curiosity by promising to reveal the hidden mechanics or profound impact of a topic, making the viewer feel smarter. Example: \`How Quantum Computers Will Change The World, Explained Simply\`
+• Purpose: Piques curiosity by promising to reveal hidden mechanics, making the viewer feel smart and entertained. Example: \`How Your Brain Tricks You Into Thinking You're Great, Explained\`
 
-Formula 3: The "Myth vs. Reality / Comparison" Formula (thách thức giả định)
-• Structure: \`[Myth vs. Fact / X vs. Y]: [Common Belief or Two Competing Concepts] + [The Shocking Truth / The Ultimate Showdown]\`
-• Purpose: Creates intrigue by challenging a common misconception or setting up a compelling comparison, promising a clear and decisive answer. Example: \`Fusion vs. Fission: The Ultimate Energy Showdown\`
+Formula 3: The "Myth vs. Hilarious Reality" Formula (challenges assumptions)
+• Structure: \`[Myth vs. Fact / X vs. Y]: [Common Belief or Two Competing Concepts] + [The Shocking (and Funny) Truth]\`
+• Purpose: Creates intrigue by challenging a common misconception, promising a clear and surprising answer. Example: \`Sleep vs. Coffee: The Ultimate Brain Fuel Showdown\`
 
-Notes for all titles:
-• Each title must be written in ENGLISH.
-• Each title should be 8–18 words long, using direct, powerful language.
 ________________________________________
 REQUIRED OUTPUT FORMAT:
 You MUST return a JSON array of objects. For each of the ${topicCount} ideas, you must create an object with the following structure:
-• proposedTitle: The English title, strictly following one of the 3 formulas above.
-• proposedTitleVI: A Vietnamese translation of the title, with correct diacritics.
+• proposedTitle: The English title.
+• proposedTitleVI: A witty Vietnamese translation of the title.
 • trendAnalysis:
-  o mainKeywords: An array of 2-4 main SEO keywords from the title.
-  o attractionReason: A brief explanation in ENGLISH of why this title is compelling, focusing on curiosity, learning, and visual appeal.
+  o mainKeywords: An array of 2-4 main SEO keywords.
+  o attractionReason: A brief explanation in ENGLISH of why this title is compelling, focusing on curiosity, humor, and learning.
   o attractionReasonVI: The same explanation, translated into VIETNAMESE.
-• effectivenessAnalysis: Interpretation of these keys in the context of an Edutainment video:
-  o curiosityHook: Why does this title make people click? What mystery, paradox, or grand question does it promise to answer?
-  o learningValue: What key concept or piece of knowledge will the viewer gain in a simple, satisfying way?
-  o visualPotential: What stunning animations, 3D models, or infographics could be used to illustrate this topic?
-  o simplificationPower: How does this title promise to simplify a complex topic, making the viewer feel intelligent and empowered?`;
+• effectivenessAnalysis:
+  o curiosityHook: Why does this title make people click? What mystery or funny paradox does it promise to answer?
+  o learningValue: What key concept will the viewer gain in a simple, satisfying way?
+  o visualPotential: What **charming animations featuring Professor Stickman** or witty infographics could be used?
+  o simplificationPower: How does this title promise to simplify a complex topic in a **fun, non-intimidating way**, making the viewer feel both smart and entertained?`;
     }
 
     const handleGenerateTopics = useCallback(async () => {

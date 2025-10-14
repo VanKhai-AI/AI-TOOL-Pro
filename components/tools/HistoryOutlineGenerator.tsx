@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { Type } from '@google/genai';
-import { AI_TOOLS, SCRIPT_GENERATOR_MODEL, getLanguageName, SUPPORTED_LANGUAGES, getToolThemeColors } from '../../constants';
+import { AI_TOOLS, SCRIPT_GENERATOR_MODEL, getToolThemeColors } from '../../constants';
+import { USER_FACING_PROMPTS } from '../../constants/prompts';
 import { type HistoryOutline, type HistoryOutlinePart, type LanguageCode, type HistoryTopicIdea } from '../../types';
 import Spinner from '../ui/Spinner';
 import { DownloadIcon, CopyIcon, CheckIcon } from '../ui/Icon';
@@ -56,13 +57,13 @@ const HistoryOutlineGenerator: React.FC = () => {
             const userIdeas = `Keywords: ${selectedTopic.trendAnalysis.mainKeywords.join(', ')}\nReason: ${language === 'VI' ? selectedTopic.trendAnalysis.attractionReasonVI : selectedTopic.trendAnalysis.attractionReason}\nAsymmetry: ${selectedTopic.effectivenessAnalysis.asymmetry}\nStrategic Wit: ${selectedTopic.effectivenessAnalysis.strategicWit}\nSpirit & Heroism: ${selectedTopic.effectivenessAnalysis.spiritAndHeroism}\nSurvival: ${selectedTopic.effectivenessAnalysis.survival}`;
             updateToolState(toolId, { documentaryTopic: topicTitle, mainMessage: userIdeas });
         }
-    }, [selectedTopic, language, updateToolState]);
+    }, [selectedTopic, language, updateToolState, toolId]);
     
     const { isLoading, error: apiError, result, generate, clear, cancel } = useGeminiApi();
 
     useEffect(() => {
       if (apiError) updateToolState(toolId, { error: apiError });
-    }, [apiError, updateToolState]);
+    }, [apiError, updateToolState, toolId]);
 
     useEffect(() => {
         if (result) {
@@ -78,7 +79,7 @@ const HistoryOutlineGenerator: React.FC = () => {
                 updateToolState(toolId, { error: e.message || "Lỗi phân tích phản hồi JSON." });
             }
         }
-    }, [result, updateToolState]);
+    }, [result, updateToolState, toolId]);
 
     const [copiedStatus, setCopiedStatus] = useState<Record<string, boolean>>({});
 
@@ -169,9 +170,18 @@ const HistoryOutlineGenerator: React.FC = () => {
         updateToolState('history-script', { outlineText: content, language: language, readingSpeed: readingSpeed });
         alert("Đã sao chép dàn ý! Vui lòng chuyển sang công cụ '3. Tạo Kịch Bản Lịch Sử' để tiếp tục.");
     };
+    
+    const getPromptForLayout = () => {
+        return USER_FACING_PROMPTS['history-outline']?.prompt
+            .replace('[Chỉ định ngôn ngữ, ví dụ: Tiếng Việt]', language.toUpperCase())
+            .replace('[Tiêu đề video lịch sử của bạn]', documentaryTopic)
+            .replace('[Dán các ý tưởng chính, từ khóa hoặc các điểm nhấn bạn muốn đưa vào đây]', mainMessage)
+            .replace('[Người Kể Chuyện Sử Thi]', teachingStyle)
+            .replace('[Số]', String(duration));
+    }
 
     return (
-        <ToolLayout tool={tool} language={'vi'} setLanguage={(lang) => {}} getPrompt={getPrompt}>
+        <ToolLayout tool={tool} language={'vi'} setLanguage={(lang) => {}} getPrompt={getPromptForLayout}>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 <div>
                     <h2 className={`text-2xl font-bold ${themeColors.text} mb-4`}>Cài đặt dàn ý</h2>

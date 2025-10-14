@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { View } from '../App';
 
@@ -64,19 +63,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activeView, setActiveView, isOpen, se
                 <nav className="flex-1 space-y-2">
                     <NavLink icon="fas fa-home" label="Trang chủ" view="home" activeView={activeView} onClick={() => handleLinkClick('home')} />
                     <NavLink icon="fas fa-th-large" label="Công cụ" view="dashboard" activeView={activeView} onClick={() => handleLinkClick('dashboard')} />
+                    <NavLink icon="fas fa-terminal" label="Prompt AI" view="prompt-library" activeView={activeView} onClick={() => handleLinkClick('prompt-library')} />
                     <NavLink icon="fas fa-cog" label="Cài đặt" view="settings" activeView={activeView} onClick={() => handleLinkClick('settings')} />
                     <NavLink icon="fas fa-question-circle" label="Trợ giúp" view="help" activeView={activeView} onClick={() => handleLinkClick('help')} />
                 </nav>
-
-                <div className="mt-auto">
-                    <div className="bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-lg p-4 text-center">
-                        <h4 className="font-bold text-gray-900 dark:text-white">Nâng cấp lên Pro</h4>
-                        <p className="text-sm text-gray-600 dark:text-gray-400 mt-2 mb-4">Mở khóa tất cả các tính năng và truy cập không giới hạn.</p>
-                        <button className="w-full bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-2 px-4 rounded-lg hover:opacity-90 transition-opacity">
-                            Nâng cấp ngay
-                        </button>
-                    </div>
-                </div>
             </aside>
         </>
     );

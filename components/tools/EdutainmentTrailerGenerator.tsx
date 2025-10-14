@@ -30,7 +30,7 @@ const EdutainmentTrailerGenerator: React.FC = () => {
 
     useEffect(() => {
       if (apiError) updateToolState(toolId, { error: apiError });
-    }, [apiError, updateToolState]);
+    }, [apiError, updateToolState, toolId]);
 
     useEffect(() => {
         if (result) {
@@ -61,10 +61,10 @@ Phải là một đối tượng JSON duy nhất.
 Cấu trúc: { "trailerData": { "trailerVoiceover": ["Câu thoại 1.", "Câu thoại 2."], "prompts": [{"textNote": "Câu thoại 1.", "imagePrompt": "..."}, {"textNote": "Câu thoại 2.", "imagePrompt": "..."}] } }`;
 
         return `VAI TRÒ:
-Bạn là một chuyên gia AI chuyên tạo các trailer video YouTube ngắn, mạnh mẽ và có khả năng lan truyền cho các nội dung giáo dục và giải trí (Edutainment). Mục tiêu của bạn là tạo ra một kịch bản thu hút người xem và khiến họ muốn xem toàn bộ video.
+Bạn là một đạo diễn trailer video Edutainment hài hước, có khả năng lan truyền. Nhiệm vụ của bạn là tạo ra một kịch bản trailer có nhịp độ nhanh, khơi gợi sự tò mò, đặt ra một câu hỏi hấp dẫn và hứa hẹn một lời giải thích trực quan tuyệt đẹp, vui nhộn.
 
 PHONG CÁCH NGHỆ THUẬT GỢI Ý:
-Phong cách nghệ thuật nên rõ ràng, hấp dẫn và phù hợp với chủ đề giáo dục/giải trí. Ưu tiên hình ảnh có màu sắc tươi sáng, bố cục năng động và có thể truyền tải thông tin một cách trực quan.
+Phong cách nghệ thuật là hoạt hình người que 2D/3D tối giản, sạch sẽ và sống động, với nhân vật chính là Professor Stickman. Phong cách này phải vui tươi, hấp dẫn và hoàn hảo cho sự hài hước và rõ ràng.
 
 THÔNG TIN ĐẦU VÀO:
 - Chủ đề Video: ${mainTitle}
@@ -74,15 +74,16 @@ THÔNG TIN ĐẦU VÀO:
 - Số từ mục tiêu: ${targetWordCount}
 
 NHIỆM VỤ:
-1.  **Tạo Lời thoại Trailer:** Dựa trên kịch bản, hãy tạo ra một kịch bản lời thoại trailer ngắn gọn, hấp dẫn. Lời thoại này phải được trả về dưới dạng một MẢNG các chuỗi, trong đó mỗi chuỗi là một câu hoàn chỉnh.
-2.  **Tạo Gợi ý Hình ảnh:** Đối với MỖI câu trong mảng lời thoại đã tạo, hãy tạo một gợi ý hình ảnh ('imagePrompt') tương ứng.
-3.  **Ghi chú (Tùy chọn):** ${includeTextNote ? `Giá trị 'textNote' cho mỗi gợi ý phải chính xác là câu thoại tương ứng từ mảng lời thoại.` : `Để trống giá trị 'textNote'.` }
+1.  **Tạo Lời thoại Trailer:** Dựa trên kịch bản, hãy tạo ra một kịch bản lời thoại trailer ngắn gọn, hấp dẫn và dí dỏm. Lời thoại này phải được trả về dưới dạng một MẢNG các chuỗi.
+2.  **Tạo Gợi ý Hình ảnh:** Đối với MỖI câu trong lời thoại, hãy tạo một gợi ý hình ảnh ('imagePrompt') tương ứng, đặt Professor Stickman làm trung tâm.
+3.  **Ghi chú (Tùy chọn):** ${includeTextNote ? `Giá trị 'textNote' cho mỗi gợi ý phải chính xác là câu thoại tương ứng.` : `Để trống giá trị 'textNote'.` }
 
 CÁC QUY TẮC CỰC KỲ QUAN TRỌNG:
-1.  **TEASER, KHÔNG PHẢI TÓM TẮT:** Lời thoại KHÔNG ĐƯỢC tóm tắt video hoặc tiết lộ câu trả lời. Nó chỉ nên trình bày vấn đề hoặc một câu hỏi hấp dẫn từ kịch bản để tạo sự tò mò tối đa.
-2.  **SỐ TỪ NGHIÊM NGẶT:** Tổng số từ của tất cả các câu trong lời thoại phải rất gần với "Số từ mục tiêu" (${targetWordCount} từ).
-3.  **NGÔN NGỮ:** Lời thoại trailer ('trailerVoiceover') phải bằng Tiếng Việt. Gợi ý hình ảnh ('imagePrompt') phải bằng Tiếng Anh.
-4.  **ĐỒNG BỘ HÓA:** Số lượng mục trong mảng 'prompts' phải khớp chính xác với số câu trong mảng 'trailerVoiceover'. Mỗi gợi ý phải tương ứng với câu thoại ở cùng chỉ mục.
+1.  **TEASER, KHÔNG PHẢI TÓM TẮT:** Lời thoại chỉ nên đặt câu hỏi hấp dẫn để tạo sự tò mò tối đa.
+2.  **SỐ TỪ NGHIÊM NGẶT:** Tổng số từ phải rất gần với "Số từ mục tiêu" (${targetWordCount} từ).
+3.  **NGÔN NGỮ:** Lời thoại ('trailerVoiceover') phải bằng Tiếng Việt. Gợi ý hình ảnh ('imagePrompt') phải bằng Tiếng Anh.
+4.  **NHÂN VẬT TRUNG TÂM:** Professor Stickman phải xuất hiện thường xuyên trong các gợi ý hình ảnh, phản ứng với thông tin bằng các biểu cảm hài hước.
+5.  **ĐỒNG BỘ HÓA:** Số lượng gợi ý hình ảnh phải khớp chính xác với số câu thoại.
 
 ${outputInstruction}
 `;

@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { GoogleGenAI, Type } from "@google/genai";
 import { useToolState } from '../../contexts/ToolStateContext';
-import { AI_TOOLS, SCRIPT_GENERATOR_MODEL, PROMPT_TEMPLATES } from '../../constants';
+import { AI_TOOLS, SCRIPT_GENERATOR_MODEL } from '../../constants';
+import { USER_FACING_PROMPTS } from '../../constants/prompts';
 import Spinner from '../ui/Spinner';
 import { DownloadIcon, CopyIcon, CheckIcon } from '../ui/Icon';
 import ToolLayout from './common/ToolLayout';
@@ -36,13 +37,25 @@ Trả về một gợi ý hình ảnh duy nhất dưới dạng văn bản thu�
 Trả về một đối tượng JSON duy nhất có một khóa "imagePrompt". Giá trị là một chuỗi chứa gợi ý hình ảnh.
 Ví dụ: { "imagePrompt": "cinematic digital painting of..." }`;
         
+        // This is a simplified version for the layout's copy button.
+        // The full art style guide is too long for a simple copy.
+        const artStyleGuide = `PHONG CÁCH NGHỆ THUẬT:
+Luôn tuân thủ nghiêm ngặt hướng dẫn phong cách nghệ thuật sau đây:
+<ART_STYLE_GUIDE>
+- Style: Cinematic, historically accurate digital painting. Hyper-realistic details.
+- Lighting: Dramatic, high-contrast lighting (chiaroscuro).
+- Composition: Rule of thirds, dynamic camera angles.
+- Color Palette: Rich, desaturated colors for a gritty, authentic feel.
+- Emotion: Capture intense, authentic human emotions.
+- Details: Historically accurate clothing, architecture, and artifacts.
+</ART_STYLE_GUIDE>
+
+`;
+        
         return `VAI TRÒ:
 Bạn là một AI chuyên tạo gợi ý hình ảnh (image prompts) chi tiết, đậm chất điện ảnh cho video tài liệu lịch sử.
 
-PHONG CÁCH NGHỆ THUẬT:
-Luôn tuân thủ nghiêm ngặt hướng dẫn phong cách nghệ thuật sau đây:
-${PROMPT_TEMPLATES.HISTORICAL_ART_STYLE}
-
+${artStyleGuide}
 NHIỆM VỤ:
 Dựa trên MỘT câu duy nhất từ kịch bản được cung cấp dưới đây, hãy tạo một gợi ý hình ảnh bằng tiếng Anh để minh họa cho câu đó.
 
@@ -78,8 +91,7 @@ ${outputInstruction}
                 const sentence = sentences[i];
                 const prompt = getPromptForSentence(sentence, false);
                 const response = await ai.models.generateContent({ model: SCRIPT_GENERATOR_MODEL, contents: prompt, config: { responseMimeType: "application/json", responseSchema: jsonSchema }});
-                // FIX: Cast the parsed JSON to a specific type to avoid 'unknown' type errors.
-                const result = JSON.parse(response.text) as { imagePrompt: string };
+                const result = JSON.parse(response.text) as { imagePrompt?: string };
 
                 if (result && result.imagePrompt) {
                     newPrompts.push({ sentence, prompt: result.imagePrompt });

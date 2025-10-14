@@ -203,63 +203,11 @@ const Settings: React.FC = () => {
 
     return (
         <div className="space-y-8 animate-fade-in-down max-w-4xl mx-auto">
-            <SettingsCard title="Hồ sơ">
-                <div className="flex items-center space-x-6">
-                    <img src="https://picsum.photos/100/100" alt="User Avatar" className="w-20 h-20 rounded-full" />
-                    <div>
-                        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 text-sm font-semibold">
-                            Tải ảnh lên
-                        </button>
-                        <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">Cho phép file JPG, GIF hoặc PNG. Tối đa 5MB.</p>
-                    </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Tên người dùng</label>
-                        <input type="text" defaultValue="Người dùng" className="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                    <div>
-                        <label className="block text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">Địa chỉ Email</label>
-                        <input type="email" defaultValue="user@example.com" className="w-full bg-gray-100 dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500" />
-                    </div>
-                </div>
-            </SettingsCard>
-
             <APIKeyManager />
 
             <SettingsCard title="Giao diện">
                 <ToggleSwitch label="Chế độ tối" enabled={theme === 'dark'} setEnabled={toggleTheme} />
             </SettingsCard>
-
-            <SettingsCard title="Thông báo">
-                <div className="space-y-4">
-                    <div className="flex items-start">
-                        <input id="email-notifications" type="checkbox" className="h-4 w-4 mt-1 rounded border-gray-400 dark:border-gray-600 bg-gray-200 dark:bg-gray-700 text-blue-600 focus:ring-blue-500" defaultChecked />
-                        <div className="ml-3 text-sm">
-                            <label htmlFor="email-notifications" className="font-medium text-gray-900 dark:text-white">Thông báo qua Email</label>
-                            <p className="text-gray-600 dark:text-gray-400">Nhận thông báo về cập nhật sản phẩm và tin tức.</p>
-                        </div>
-                    </div>
-                     <div className="flex items-start">
-                        <input id="push-notifications" type="checkbox" className="h-4 w-4 mt-1 rounded border-gray-400 dark:border-gray-600 bg-gray-200 dark:bg-gray-700 text-blue-600 focus:ring-blue-500" />
-                        <div className="ml-3 text-sm">
-                            <label htmlFor="push-notifications" className="font-medium text-gray-900 dark:text-white">Thông báo đẩy</label>
-                            <p className="text-gray-600 dark:text-gray-400">Nhận thông báo đẩy trên trình duyệt của bạn.</p>
-                        </div>
-                    </div>
-                </div>
-            </SettingsCard>
-
-             <SettingsCard title="Tài khoản">
-                <div className="flex flex-col sm:flex-row gap-4">
-                     <button className="w-full sm:w-auto px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 font-semibold">
-                        Đổi mật khẩu
-                    </button>
-                    <button className="w-full sm:w-auto px-4 py-2 bg-red-600 dark:bg-red-800 text-white rounded-lg hover:bg-red-700 dark:hover:bg-red-700 font-semibold">
-                        Xóa tài khoản
-                    </button>
-                </div>
-             </SettingsCard>
         </div>
     );
 };

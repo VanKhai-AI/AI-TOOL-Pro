@@ -8,7 +8,7 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ setActiveView }) => {
-  const featuredTools = AI_TOOLS.slice(0, 4);
+  const featuredTools = AI_TOOLS.filter(tool => !tool.isPromptOnly).slice(0, 4);
 
   return (
     <div className="animate-fade-in-down space-y-12">
@@ -38,16 +38,6 @@ const Home: React.FC<HomeProps> = ({ setActiveView }) => {
         </div>
       </section>
       
-       {/* Call to Action */}
-      <section className="bg-white dark:bg-[#1c1c1c] border border-gray-200 dark:border-gray-800 rounded-lg p-8 flex flex-col md:flex-row justify-between items-center shadow-md">
-        <div>
-          <h3 className="text-2xl font-bold text-gray-900 dark:text-white">Sẵn sàng để bắt đầu?</h3>
-          <p className="text-gray-600 dark:text-gray-400 mt-1">Nâng cấp lên Pro để có quyền truy cập không giới hạn và các tính năng độc quyền.</p>
-        </div>
-        <button className="mt-4 md:mt-0 bg-gradient-to-r from-purple-500 to-indigo-500 text-white font-bold py-3 px-6 rounded-lg hover:opacity-90 transition-opacity">
-          Nâng cấp ngay
-        </button>
-      </section>
     </div>
   );
 };

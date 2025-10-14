@@ -37,28 +37,32 @@ const EdutainmentScriptPromptGenerator: React.FC = () => {
         if (!sentence) return '';
         
         const outputInstruction = forCopying
-            ? `ĐỊNH DẠ𝐍𝐆 ĐẦU RA (Văn bản thuần túy):
+            ? `ĐỊNH DẠNG ĐẦU RA (Văn bản thuần túy):
 Trả về một gợi ý hình ảnh duy nhất dưới dạng văn bản thuần túy bằng tiếng Anh.`
             : `ĐỊNH DẠNG ĐẦU RA (JSON):
 Trả về một đối tượng JSON duy nhất có một khóa "imagePrompt". Giá trị là một chuỗi chứa gợi ý hình ảnh.
 Ví dụ: { "imagePrompt": "A vibrant 3D render of..." }`;
         
         return `VAI TRÒ:
-Bạn là một AI chuyên tạo gợi ý hình ảnh (image prompts) chi tiết, rõ ràng và hấp dẫn cho video giáo dục và giải trí (edutainment).
+Bạn là một AI chuyên tạo gợi ý hình ảnh chi tiết và đầy sức biểu cảm cho một kênh edutainment hài hước sử dụng hoạt hình người que.
+
+**NHÂN VẬT CHÍNH (QUAN TRỌNG NHẤT):**
+Nhân vật chính của chúng ta là **Professor Stickman**. Hầu hết các hình ảnh nên có sự xuất hiện của ông ấy. Ông là người dẫn chuyện và là cầu nối với khán giả. Hãy mô tả hành động, biểu cảm (tò mò, sốc, vui mừng, tinh nghịch) và tư thế của ông ấy để minh họa một cách hài hước cho câu nói.
+Mô tả nhân vật (ENGLISH DESCRIPTION - USE THIS): "A wise Professor Stickman with a large, round head, big expressive circular eyes with distinct black pupils, and small round intellectual glasses perched on his face. He has a few stray wisps of hair sticking up from the top of his head. His body is composed of simple straight lines - a vertical line for the torso and two short horizontal lines at the shoulders suggesting a scholarly blazer. His overall proportions are balanced and visually pleasing. He stands with his legs as two well-proportioned straight lines of medium length and simple oval feet, firmly planted on the ground. He sports a confident, knowing smirk. One arm is raised, pointing outward as if explaining an important concept, while the other hand holds a simple pointer stick."
 
 PHONG CÁCH NGHỆ THUẬT:
-Phong cách nghệ thuật nên rõ ràng, hấp dẫn và phù hợp với chủ đề giáo dục/giải trí. Ưu tiên hình ảnh có màu sắc tươi sáng, bố cục năng động và có thể truyền tải thông tin một cách trực quan. Sử dụng phong cách digital art hoặc 3D render hiện đại.
+Phong cách là hoạt hình người que 2D/3D tối giản, sạch sẽ và sống động. Ưu tiên hình ảnh có màu sắc tươi sáng, bố cục năng động để truyền tải thông tin một cách trực quan và vui nhộn.
 
 NHIỆM VỤ:
-Dựa trên MỘT câu duy nhất từ kịch bản được cung cấp dưới đây, hãy tạo một gợi ý hình ảnh bằng tiếng Anh để minh họa cho câu đó.
+Dựa trên MỘT câu duy nhất từ kịch bản dưới đây, hãy tạo một gợi ý hình ảnh bằng tiếng Anh để minh họa cho câu đó, đặt Professor Stickman làm trung tâm.
 
 CÂU KỊCH BẢN:
 "${sentence}"
 
 QUY TẮC:
 - Gợi ý hình ảnh phải bằng tiếng Anh.
-- Gợi ý phải mô tả một cảnh duy nhất, gắn kết.
-- Gợi ý phải phù hợp với phong cách nghệ thuật giáo dục và giải trí.
+- Gợi ý phải mô tả một cảnh duy nhất, có Professor Stickman.
+- Gợi ý phải nắm bắt được giọng văn hài hước, thú vị của kịch bản.
 
 ${outputInstruction}
 `;
@@ -110,8 +114,8 @@ ${outputInstruction}
                     const response = await generate({ model: SCRIPT_GENERATOR_MODEL, contents: prompt, config: { responseMimeType: "application/json", responseSchema: jsonSchema }});
 
                     if (response) {
-                        // FIX: Cast the parsed JSON to a specific type to avoid 'unknown' type errors.
-                        const result = JSON.parse(response.text) as { imagePrompt: string };
+                        // FIX: Cast the result of JSON.parse to a specific object type to resolve the TypeScript error.
+                        const result = JSON.parse(response.text.replace(/```json\n?|```/g, '')) as { imagePrompt: string };
                         if (result && result.imagePrompt) {
                             newPrompts.parts[part.partIndex].push({ textNote: sentence, imagePrompt: result.imagePrompt });
                         } else {

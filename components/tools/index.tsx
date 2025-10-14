@@ -13,6 +13,7 @@ import EdutainmentImageAssetsGenerator from './EdutainmentImageAssetsGenerator';
 import EdutainmentCreativesGenerator from './EdutainmentCreativesGenerator';
 
 import FactChecker from './FactChecker';
+import TextSummarizer from './TextSummarizer';
 
 
 export const toolComponents: { [key: string]: React.FC } = {
@@ -32,4 +33,6 @@ export const toolComponents: { [key: string]: React.FC } = {
 
   // Research
   'fact-checker': FactChecker,
+  'text-summarizer': TextSummarizer,
+  
 };

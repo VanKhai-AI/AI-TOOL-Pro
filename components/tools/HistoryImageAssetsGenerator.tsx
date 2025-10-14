@@ -88,6 +88,8 @@ const HistoryImageAssetsGenerator: React.FC = () => {
 OUTPUT REQUIREMENT (MANDATORY):
 You MUST return a JSON array of objects. For each historical figure, military unit, or character archetype identified in the script, create a JSON object that strictly adheres to the following structure. All field values MUST be in ENGLISH. Infer and fill in the details for each entry based on their role, descriptions, and actions in the script, ensuring they reflect the channel's target audience (seeking accurate knowledge, epic stories, national pride, depth, and stunning visuals) and its "epic, in-depth, dramatic, emotional" tone and style, especially for historical and military contexts.
 
+JSON FORMATTING RULE: Ensure all string values in the JSON are properly escaped. Any double quotes (") inside a string field must be escaped with a backslash (\\"). Newlines inside a string must be represented as \\n.
+
 JSON STRUCTURE FOR EACH CHARACTER (ALL FIELDS IN ENGLISH):
 {
   "character_id": "A concise, conjoined English identifier, e.g., ValiantVietnameseGeneral, MongolInvaderCommander, ResilientPeasantSoldier, StrategicAdvisor",
@@ -119,6 +121,8 @@ You are an AI Production Manager and Visual Director for the "${channelName}" Yo
 
 OUTPUT REQUIREMENT (MANDATORY):
 You MUST return a JSON array of objects. For each environment identified in the script, create a JSON object that strictly adheres to the following structure. All field values MUST be in ENGLISH. Infer and fill in the details based on the descriptions and atmosphere in the script, ensuring they align with the "${channelName}" channel's specific brand and content strategy, especially its focus on "EPIC", "WAR", and "CRUSHED" themes and cinematic visual style.
+
+JSON FORMATTING RULE: Ensure all string values in the JSON are properly escaped. Any double quotes (") inside a string field must be escaped with a backslash (\\"). Newlines inside a string must be represented as \\n.
 
 JSON STRUCTURE FOR EACH ENVIRONMENT (ALL FIELDS IN ENGLISH):
 {

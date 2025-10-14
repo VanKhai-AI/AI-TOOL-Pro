@@ -81,30 +81,30 @@ const EdutainmentImageAssetsGenerator: React.FC = () => {
     
     // 1. Generate Concept IDs
     const handleGenerateConcepts = async () => {
-        const prompt = `ROLE: You are an AI Production Manager and Visual Design Specialist for a top-tier Edutainment channel. Your task is to analyze the script and extract key characters, mascots, concepts, or abstract representations (e.g., The AI Brain, The Friendly Atom, The Concept of Gravity). Create detailed, consistent profiles for each in ENGLISH, designed for a clean, vibrant, infographic visual style.
+        const prompt = `ROLE: You are an AI Production Manager and Visual Design Specialist for a top-tier Edutainment channel celebrated for its charming and humorous stickman animations. Your task is to analyze the script and extract key characters and concepts.
+
+**PRIMARY CHARACTER - PROFESSOR STICKMAN (MANDATORY):**
+Your most important task is to create a profile for the main character, **Professor Stickman**. He is the channel's host and narrator. Adhere strictly to this description: "A wise Professor Stickman with a large, round head, big expressive circular eyes with distinct black pupils, and small round intellectual glasses perched on his face. He has a few stray wisps of hair sticking up from the top of his head. His body is composed of simple straight lines - a vertical line for the torso and two short horizontal lines at the shoulders suggesting a scholarly blazer. His overall proportions are balanced and visually pleasing. He stands with his legs as two well-proportioned straight lines of medium length and simple oval feet, firmly planted on the ground. He sports a confident, knowing smirk. One arm is raised, pointing outward as if explaining an important concept, while the other hand holds a simple pointer stick."
+- Ensure his \`character_id\` is 'ProfessorStickman'.
+- His \`Behavior_Personality\` should be 'Wise, witty, charismatic, endlessly curious, and slightly quirky'.
 
 OUTPUT REQUIREMENT (MANDATORY): You MUST return a JSON array of objects. All fields must be in ENGLISH.
 
 JSON STRUCTURE FOR EACH CONCEPT/CHARACTER:
 {
-  "character_id": "A concise, conjoined English identifier, e.g., TheFriendlyAtom, TheAIBrain, TheDNAMascot",
-  "Name_ID": "The concept's role or general description, e.g., The Atom (Mascot), Artificial Intelligence (Concept), DNA Strand (Visual Metaphor)",
-  "Physical_Appearance": "Detailed description of its visual form. Focus on simple, iconic shapes and friendly features for mascots, or sleek, abstract forms for concepts. E.g., 'A sphere with orbiting electrons, cute eyes, and a smile', 'A glowing, intricate network of light pulses representing a neural network'.",
-  "Age_Life_Stage": "N/A for concepts. Use 'Ageless' or 'Conceptual'.",
-  "Height_Size": "Describe its relative scale in visuals, e.g., 'Microscopic scale', 'Vast, cosmic scale', 'Scalable for infographics'.",
-  "Costume_Accessories": "Signature visual elements. E.g., 'Wears a little lab coat', 'Surrounded by floating binary code', 'Has color-coded nucleotide bases'.",
-  "Distinctive_Features": "The most memorable visual trait. E.g., 'Its glowing nucleus', 'The way it morphs to show different ideas', 'Its playful, bouncy animation'.",
-  "Behavior_Personality": "How it acts in animations. E.g., 'Curious and helpful', 'Powerful and complex', 'Elegant and precise'.",
-  "Skin_Tone": "N/A. Describe material or texture, e.g., 'Smooth matte texture', 'Glossy, translucent material', 'Glowing energy'.",
-  "Era": "N/A. Use 'Modern' or 'Futuristic'.",
-  "Art_Style_Lock": "Clean, vibrant, minimalist, 3D-infographic style. Bright color palette, smooth gradients, and clear visual communication. Inspired by channels like Kurzgesagt. AVOID hyper-realism, dark/gritty styles."
+  "character_id": "A concise, conjoined English identifier, e.g., ProfessorStickman, TheFriendlyAtom",
+  "Name_ID": "The concept's role or general description, e.g., Professor Stickman (Host), The Atom (Mascot)",
+  "Physical_Appearance": "Detailed description of its visual form. For Professor Stickman, use the mandatory description above. For other concepts, keep them simple and iconic.",
+  "Behavior_Personality": "How it acts in animations. E.g., 'Curious and helpful', 'Powerful and complex', or for Professor Stickman: 'Wise, witty, charismatic'.",
+  "Distinctive_Features": "The most memorable visual trait. For Professor Stickman: 'His expressive eyes and intellectual glasses'.",
+  "Art_Style_Lock": "Clean, vibrant, minimalist, 2D/3D-infographic style. Bright color palette. Inspired by channels like Kurzgesagt, but with a more playful and character-driven feel centered around Professor Stickman. The style must be perfect for humor and clarity."
 }
 
 INPUT SCRIPT:
 ---
 ${scriptText}
 ---`;
-        const schema = { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { character_id: { type: Type.STRING }, Name_ID: { type: Type.STRING }, Physical_Appearance: { type: Type.STRING }, Age_Life_Stage: { type: Type.STRING }, Height_Size: { type: Type.STRING }, Costume_Accessories: { type: Type.STRING }, Distinctive_Features: { type: Type.STRING }, Behavior_Personality: { type: Type.STRING }, Skin_Tone: { type: Type.STRING }, Era: { type: Type.STRING }, Art_Style_Lock: { type: Type.STRING } }, required: ["character_id", "Name_ID"] }};
+        const schema = { type: Type.ARRAY, items: { type: Type.OBJECT, properties: { character_id: { type: Type.STRING }, Name_ID: { type: Type.STRING }, Physical_Appearance: { type: Type.STRING }, Behavior_Personality: { type: Type.STRING }, Distinctive_Features: { type: Type.STRING }, Art_Style_Lock: { type: Type.STRING } }, required: ["character_id", "Name_ID"] }};
         const result = await runGeneration("Tạo Concept ID", prompt, schema);
         if (result) setState({ concepts: result });
     };
@@ -114,6 +114,8 @@ ${scriptText}
         const prompt = `ROLE: You are an AI Visual Director for a top-tier Edutainment channel. Your task is to analyze the script and extract key environments, settings, or abstract backgrounds (e.g., A Stylized Laboratory, A Vibrant Microscopic World, An Abstract Infographic Space) and create detailed profiles in ENGLISH.
 
 OUTPUT REQUIREMENT (MANDATORY): You MUST return a JSON array of objects. All fields must be in ENGLISH.
+
+JSON FORMATTING RULE: Ensure all string values in the JSON are properly escaped. Any double quotes (") inside a string field must be escaped with a backslash (\\"). Newlines inside a string must be represented as \\n.
 
 JSON STRUCTURE FOR EACH ENVIRONMENT:
 {
@@ -127,7 +129,7 @@ JSON STRUCTURE FOR EACH ENVIRONMENT:
   "Atmosphere_Personality": "The mood: 'Clean and clinical', 'Awe-inspiring and vast', 'Playful and energetic', 'Focused and informative'.",
   "Lighting_Color_Palette": "Lighting and color scheme: 'Bright, even lighting', 'soft ambient glow', 'Vibrant, high-contrast color palette with a clean white or dark background', 'Use of brand colors for consistency'.",
   "Era": "N/A. Use 'Modern' or 'Futuristic'.",
-  "Art_Style_Lock": "Clean, vibrant, minimalist, 3D-infographic style. Bright color palette, smooth gradients, and clear visual communication. Inspired by channels like Kurzgesagt. AVOID hyper-realism, dark/gritty styles."
+  "Art_Style_Lock": "Clean, vibrant, minimalist, 2D/3D-infographic style. Bright color palette, smooth gradients, and clear visual communication. Inspired by channels like Kurzgesagt, but with a more playful and character-driven feel centered around Professor Stickman. The style must be perfect for humor and clarity."
 }
 
 INPUT SCRIPT:
@@ -148,7 +150,7 @@ ${scriptText}
             ? `- Environment IDs: ${environments.map(e => e.environment_id).join(', ')}`
             : `- Environment IDs: Not provided. You must infer relevant environments or abstract backgrounds from the script.`;
         const consistencyGuideline = concepts.length > 0
-            ? `- **Consistency:** Use the provided Concept and Environment IDs.`
+            ? `- **Consistency:** Use the provided Concept and Environment IDs, especially 'ProfessorStickman'.`
             : `- **Consistency:** Infer concepts and environments from the script and maintain consistency throughout the trailer.`;
         
         const prompt = `ROLE: You are a Viral Edutainment Video Trailer Director. Your mission is to create a fast-paced, curiosity-driven trailer script that poses a fascinating question and promises a visually stunning explanation, compelling viewers to watch the full video.
@@ -161,10 +163,11 @@ ${environmentInput}
 - Full Script: Provided for your analysis to extract the core question and most visually exciting moments.
 
 CORE GUIDELINES:
-1.  **Narrative Arc:** Hook with a big question -> Present a common misconception -> Hint at a surprising truth -> Show quick, dynamic visuals of the explanation -> End with a call to discover the answer.
+1.  **Narrative Arc:** Hook with a big question -> Present a common misconception -> Hint at a surprising truth -> Show quick, dynamic visuals of the explanation (featuring Professor Stickman) -> End with a call to discover the answer.
 2.  **Voice Over (in ${language}):** Must be short, punchy, and exciting sentences. Use questions heavily. The tone should be enthusiastic and full of wonder.
 3.  **Visual Prompt (in ENGLISH):** 
-    -   **Art Style (MANDATORY): Clean, vibrant, minimalist, 3D-infographic style. Bright color palette, smooth gradients. Inspired by Kurzgesagt. AVOID hyper-realism or dark styles.**
+    -   **Art Style (MANDATORY): Clean, vibrant, minimalist, 2D/3D-infographic style. Bright color palette. Inspired by Kurzgesagt, but with a more playful, character-driven feel centered around Professor Stickman. The style must be perfect for humor and clarity. AVOID hyper-realism or dark styles.**
+    -   **Character Focus (CRITICAL): Professor Stickman should appear frequently, reacting to the information with witty expressions.**
     -   **Cinematography:** Use dynamic, fast-paced camera moves: quick zooms, slides, and transitions. Focus on clarity and visual appeal.
     -   ${consistencyGuideline}
 4.  **Structure:** Create ~10-12 scenes for a ${trailerDuration}-second trailer.
@@ -176,7 +179,7 @@ OUTPUT FORMAT (JSON REQUIRED):
     {
       "start": "00:00",
       "duration": 3,
-      "visual_prompt": "Clean 3D infographic style, a stylized Earth zooms into view against a dark, minimalist background with subtle grid lines (Environment: AbstractInfographicSpace). A glowing question mark pops up next to it. Vibrant colors, smooth animation.",
+      "visual_prompt": "Clean 3D infographic style. Professor Stickman (character: ProfessorStickman) stands next to a stylized Earth, looking thoughtful with a hand on his chin. A glowing question mark pops up. Vibrant colors, smooth animation.",
       "voice_over": "Bạn đã bao giờ tự hỏi... điều gì sẽ xảy ra nếu Mặt Trăng biến mất?",
       "transition": "Quick cut to:",
       "sfx": "Upbeat synth pop, whoosh sound",
@@ -225,7 +228,7 @@ ${scriptText}
         try {
             for (let i = 0; i < parts.length; i++) {
                 const partScript = parts[i].trim();
-                const prompt = `ROLE: You are an AI Motion Graphics Director for a top Edutainment channel. Your task is to convert each paragraph of a script into a detailed image prompt in ENGLISH, strictly adhering to a clean, vibrant, infographic style.
+                const prompt = `ROLE: You are an AI Motion Graphics Director for a top Edutainment channel known for its witty stickman animations starring Professor Stickman. Your task is to convert each paragraph of a script into a detailed image prompt in ENGLISH.
 
 INPUTS:
 ${conceptInput}
@@ -235,20 +238,21 @@ ${environmentInput}
 - Script Snippet: The specific script part to be converted.
 
 CORE STYLE GUIDELINES (MANDATORY):
-- **Art Style (MANDATORY): Clean, vibrant, minimalist, 3D-infographic style. Bright color palette, smooth gradients, and clear visual communication. Inspired by channels like Kurzgesagt. Focus on making complex ideas visually simple and beautiful. AVOID hyper-realism, dark/gritty styles, or complex backgrounds.**
-- **Imagery:** Generate powerful images that visually explain the concept in the paragraph. Use the defined concepts/mascots and environments if provided. Focus on clarity and telling a story through visuals.
-- **Quality:** Always add keywords: vibrant colors, 3D render, infographic style, clean background, minimalist, engaging, sharp focus, 4K.
+- **Art Style (MANDATORY): Clean, vibrant, minimalist, 2D/3D-infographic style. Bright color palette, smooth gradients. Inspired by channels like Kurzgesagt, but with a more playful, character-driven feel. AVOID hyper-realism or dark styles.**
+- **Character Focus (CRITICAL): Professor Stickman MUST be the central character in most prompts.** Show him explaining, interacting with concepts, looking curious, shocked, or having a 'eureka!' moment. Use his pointer stick to direct attention. His exaggerated expressions are key to conveying the video's humorous and engaging tone.
+- **Imagery:** Generate powerful images that visually and humorously explain the concept in the paragraph.
+- **Quality Keywords:** Always add: vibrant colors, 3D render, infographic style, clean background, minimalist, engaging, sharp focus, 4K.
 ${consistencyGuideline}
 
-PROCESS: For EACH paragraph in the 'SCRIPT SNIPPET', generate ONE JSON object. The number of objects in the final array MUST EXACTLY match the number of paragraphs.
+PROCESS: For EACH paragraph in the 'SCRIPT SNIPPET', generate ONE JSON object. The number of objects in the final array MUST EXACTLY match the number of paragraphs. Ensure 'ProfessorStickman' is listed in the \`characters\` array for almost every scene.
 
-OUTPUT FORMAT (JSON ARRAY REQUIRED): Each object must have this structure:
+OUTPUT FORMAT (JSON ARRAY REQUIRED):
 {
   "scene_id": "Sequential scene number, starting from ${sceneIdCounter}",
   "segment_id": ${i + 1},
-  "characters": ["Array of concept_ids relevant to the scene. If IDs were not provided, list inferred concepts like 'TheAtom', 'GravityConcept'."],
-  "environment": ["Array of environment_ids relevant to the scene. If IDs were not provided, list inferred environments like 'MicroscopicWorld', 'CosmicBackground'."],
-  "prompt_image": "The detailed, clean, infographic-style image prompt string in ENGLISH."
+  "characters": ["ProfessorStickman", "Any other relevant concept_ids"],
+  "environment": ["Array of relevant environment_ids"],
+  "prompt_image": "The detailed, clean, infographic-style image prompt string in ENGLISH, featuring Professor Stickman."
 }
 
 SCRIPT SNIPPET:

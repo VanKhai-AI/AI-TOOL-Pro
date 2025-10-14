@@ -4,7 +4,7 @@ const AccordionItem: React.FC<{ title: string; children: React.ReactNode }> = ({
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="border-b border-gray-200 dark:border-gray-800">
+        <div className="border-b border-gray-200 dark:border-gray-800 last:border-b-0">
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className="flex justify-between items-center w-full py-5 text-left"
@@ -39,12 +39,6 @@ const Help: React.FC = () => {
                 </AccordionItem>
                 <AccordionItem title="Các công cụ 'Sắp ra mắt' là gì?">
                     <p>Đây là những công cụ mà chúng tôi hiện đang phát triển. Chúng sẽ được phát hành trong các bản cập nhật trong tương lai. Hãy theo dõi!</p>
-                </AccordionItem>
-                <AccordionItem title="Tôi có thể nâng cấp tài khoản của mình không?">
-                    <p>Có, bạn có thể nâng cấp lên gói Pro để mở khóa các tính năng nâng cao, giới hạn sử dụng cao hơn và quyền truy cập ưu tiên vào các công cụ mới. Nhấp vào nút 'Nâng cấp lên Pro' trong thanh bên để biết thêm chi tiết.</p>
-                </AccordionItem>
-                 <AccordionItem title="Làm cách nào để liên hệ với bộ phận hỗ trợ?">
-                    <p>Nếu bạn có bất kỳ câu hỏi nào khác hoặc gặp bất kỳ vấn đề nào, vui lòng liên hệ với nhóm hỗ trợ của chúng tôi qua email tại support@aihub-example.com.</p>
                 </AccordionItem>
             </div>
         </div>

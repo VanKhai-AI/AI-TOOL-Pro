@@ -2,7 +2,8 @@ import React, { useMemo, useCallback, useEffect } from 'react';
 import { Type } from "@google/genai";
 import { useToolState } from '../../contexts/ToolStateContext';
 import { type LanguageCode } from '../../types';
-import { AI_TOOLS, SCRIPT_GENERATOR_MODEL, PROMPT_TEMPLATES } from '../../constants';
+import { AI_TOOLS, SCRIPT_GENERATOR_MODEL } from '../../constants';
+import { USER_FACING_PROMPTS } from '../../constants/prompts';
 import Spinner from '../ui/Spinner';
 import { TrailerResponse } from '../../types/aiResponse';
 import ToolLayout from './common/ToolLayout';
@@ -30,7 +31,7 @@ const HistoryTrailerGenerator: React.FC = () => {
 
     useEffect(() => {
       if (apiError) updateToolState(toolId, { error: apiError });
-    }, [apiError, updateToolState]);
+    }, [apiError, updateToolState, toolId]);
 
     useEffect(() => {
         if (result) {
@@ -43,7 +44,7 @@ const HistoryTrailerGenerator: React.FC = () => {
                  updateToolState(toolId, { error: e.message || "Lỗi phân tích phản hồi JSON." });
             }
         }
-    }, [result, updateToolState]);
+    }, [result, updateToolState, toolId]);
     
     const mainTitle = useMemo(() => outlineText.match(/(?:Tiêu đề chính|CHỦ ĐỀ):\s*(.*)/)?.[1].trim() || 'Video Lịch sử', [outlineText]);
 
@@ -62,7 +63,13 @@ Cấu trúc: { "trailerData": { "trailerVoiceover": ["Câu thoại 1.", "Câu th
         
         const artStyleReference = forCopying
             ? ''
-            : `PHONG CÁCH NGHỆ THUẬT THAM KHẢO:\n${PROMPT_TEMPLATES.HISTORICAL_ART_STYLE}\n\n`;
+            : `PHONG CÁCH NGHỆ THUẬT THAM KHẢO:\n<ART_STYLE_GUIDE>
+-   **Style:** Cinematic, historically accurate digital painting. Hyper-realistic details.
+-   **Lighting:** Dramatic, high-contrast lighting (chiaroscuro).
+-   **Composition:** Rule of thirds, dynamic camera angles.
+-   **Color Palette:** Rich, desaturated colors for a gritty, authentic feel.
+-   **Emotion:** Capture intense, authentic human emotions.
+</ART_STYLE_GUIDE>\n\n`;
 
         return `VAI TRÒ:
 Bạn là một chuyên gia AI chuyên tạo các trailer video YouTube ngắn, mạnh mẽ và có khả năng lan truyền về Lịch sử Việt Nam. Mục tiêu của bạn là tạo ra một kịch bản thu hút người xem và khiến họ muốn xem toàn bộ video.

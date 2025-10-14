@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Type } from '@google/genai';
-import { AI_TOOLS, TOPIC_GENERATOR_MODEL, SUPPORTED_LANGUAGES, getLanguageName, getToolThemeColors } from '../../constants';
+import { AI_TOOLS, TOPIC_GENERATOR_MODEL, SUPPORTED_LANGUAGES, getToolThemeColors } from '../../constants';
+import { USER_FACING_PROMPTS } from '../../constants/prompts'; // Although not used for generation, good to have for consistency
 import { type HistoryTopicIdea, type LanguageCode } from '../../types';
 import Spinner from '../ui/Spinner';
 import { DownloadIcon, CopyIcon, CheckIcon } from '../ui/Icon';
@@ -51,6 +52,15 @@ const HistoryTopicGenerator: React.FC = () => {
     const [isCopied, setIsCopied] = useState(false);
 
     const getPrompt = () => {
+      // This function now uses the centralized user-facing prompt for display/copy purposes
+      return USER_FACING_PROMPTS['history-topic']?.prompt
+        .replace('[Số lượng chủ đề]', String(topicCount))
+        .replace('[Tên kênh của bạn]', channelName)
+        .replace('[Chủ đề lịch sử của bạn]', userTopic) || '';
+    };
+
+    const getGenerationPrompt = () => {
+      // This is the actual prompt sent to the API
         return `ROLE: You are a world-class YouTube Title Generation Expert specializing in cinematic, epic historical, and military documentary content for the '${channelName}' channel. Your mission is to apply proven title formulas to create compelling, dramatic, and historically rich title ideas optimized for views, strictly adhering to the established 'HistoryWhy' content style and tone. 
 
 OBJECTIVE: Generate exactly ${topicCount} unique YouTube title ideas in ENGLISH for historical and military documentary videos. For each idea, provide a full analysis in the required JSON format. 
@@ -102,7 +112,7 @@ You MUST return a JSON array of objects. For each of the ${topicCount} ideas, yo
         updateToolState(toolId, { error: null, generatedTopics: [], selectedTopicIndex: null });
         clear();
 
-        const prompt = getPrompt();
+        const prompt = getGenerationPrompt();
         const jsonSchema = {
             type: Type.ARRAY,
             items: {

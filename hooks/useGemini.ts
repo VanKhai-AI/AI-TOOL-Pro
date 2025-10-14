@@ -1,5 +1,4 @@
 import { useState, useCallback, useRef } from 'react';
-// FIX: Changed GenerateContentRequest to GenerateContentParameters and imported GroundingMetadata to resolve type conflicts.
 import { GoogleGenAI, GenerateContentParameters, GroundingMetadata } from '@google/genai';
 
 const useGemini = () => {
@@ -15,7 +14,6 @@ const useGemini = () => {
         setError(null);
     }, []);
     
-    // FIX: Changed GenerateContentRequest to GenerateContentParameters.
     const generateContent = useCallback(async (params: GenerateContentParameters) => {
         setIsLoading(true);
         setError(null);
@@ -32,7 +30,6 @@ const useGemini = () => {
             setResult(response.text);
 
             if (response.candidates?.[0]?.groundingMetadata) {
-                // FIX: The type of `groundingMetadata` now correctly matches the type from the SDK.
                 setGroundingMetadata(response.candidates[0].groundingMetadata);
             }
 

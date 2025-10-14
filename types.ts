@@ -17,6 +17,7 @@ export interface AITool {
   color: string;
   category: AIToolCategory;
   label?: AIToolLabel;
+  isPromptOnly?: boolean;
 }
 
 export interface AIToolCombo {

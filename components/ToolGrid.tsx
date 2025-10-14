@@ -53,10 +53,11 @@ const ToolGrid: React.FC<ToolGridProps> = ({ setActiveView }) => {
     });
   };
 
+  const toolsToDisplay = AI_TOOLS.filter(t => !t.isPromptOnly);
 
   if (searchQuery.trim()) {
     const lowercasedQuery = searchQuery.trim().toLowerCase();
-    const filteredTools = AI_TOOLS.filter(tool =>
+    const filteredTools = toolsToDisplay.filter(tool =>
         tool.title.toLowerCase().includes(lowercasedQuery) ||
         tool.description.toLowerCase().includes(lowercasedQuery)
     );
@@ -85,7 +86,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({ setActiveView }) => {
     );
   }
 
-  const groupedTools = AI_TOOLS.reduce((acc, tool) => {
+  const groupedTools = toolsToDisplay.reduce((acc, tool) => {
     const category = tool.category;
     if (!acc.has(category)) {
       acc.set(category, []);
@@ -111,7 +112,7 @@ const ToolGrid: React.FC<ToolGridProps> = ({ setActiveView }) => {
                 const categoryColor = {
                   'AI Lịch sử': 'border-amber-500',
                   'AI Giáo dục/Giải trí': 'border-teal-500',
-                  'Nghiên cứu & Phân tích': 'border-sky-500'
+                  'Nghiên cứu & Phân tích': 'border-sky-500',
                 }[category] || 'border-gray-500';
 
                 return (

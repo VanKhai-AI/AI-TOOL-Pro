@@ -77,8 +77,7 @@ ${outputInstruction}
                 const sentence = sentences[i];
                 const prompt = getPromptForSentence(sentence, false);
                 const response = await ai.models.generateContent({ model: SCRIPT_GENERATOR_MODEL, contents: prompt, config: { responseMimeType: "application/json", responseSchema: jsonSchema }});
-                // FIX: Cast the parsed JSON to a specific type to avoid 'unknown' type errors.
-                const result = JSON.parse(response.text) as { imagePrompt: string };
+                const result = JSON.parse(response.text) as { imagePrompt?: string };
 
                 if (result && result.imagePrompt) {
                     newPrompts.push({ sentence, prompt: result.imagePrompt });

@@ -82,6 +82,33 @@ export const AI_TOOLS: AITool[] = [
     category: 'AI Lịch sử',
     label: { text: 'Gemini/Google Ai Studio', bgColor: 'bg-red-600', textColor: 'text-white' },
   },
+   {
+    id: 'history-character-id', // New ID
+    title: 'Tạo Hồ sơ Nhân vật Lịch sử',
+    description: 'Phân tích kịch bản để tạo hồ sơ chi tiết cho các nhân vật, đơn vị quân đội hoặc các hình mẫu lịch sử.',
+    icon: <i className="fas fa-user-shield"></i>,
+    color: 'from-amber-500 to-orange-500',
+    category: 'AI Lịch sử',
+    isPromptOnly: true, 
+  },
+  {
+    id: 'history-environment-id', // New ID
+    title: 'Tạo Hồ sơ Môi trường Lịch sử',
+    description: 'Phân tích kịch bản để tạo hồ sơ chi tiết cho các môi trường quan trọng như chiến trường, cung điện.',
+    icon: <i className="fas fa-landmark"></i>,
+    color: 'from-amber-500 to-orange-500',
+    category: 'AI Lịch sử',
+    isPromptOnly: true,
+  },
+  {
+    id: 'history-trailer-prompt', // New ID for clarity
+    title: 'Tạo Kịch bản Trailer Lịch sử',
+    description: 'Tạo kịch bản trailer điện ảnh từ kịch bản đầy đủ, bao gồm lời thoại và gợi ý hình ảnh.',
+    icon: <i className="fas fa-film"></i>,
+    color: 'from-amber-500 to-orange-500',
+    category: 'AI Lịch sử',
+    isPromptOnly: true,
+  },
   {
     id: 'history-creative',
     title: '5. Tạo Nội Dung Sáng Tạo',
@@ -129,6 +156,33 @@ export const AI_TOOLS: AITool[] = [
     label: { text: 'Gemini/Google Ai Studio', bgColor: 'bg-blue-600', textColor: 'text-white' },
   },
   {
+    id: 'edutainment-character-id', // New ID
+    title: 'Tạo Hồ sơ Concept/Nhân vật Edutainment',
+    description: 'Phân tích kịch bản để tạo hồ sơ cho các nhân vật, linh vật hoặc các khái niệm trừu tượng.',
+    icon: <i className="fas fa-puzzle-piece"></i>,
+    color: 'from-teal-500 to-cyan-500',
+    category: 'AI Giáo dục/Giải trí',
+    isPromptOnly: true,
+  },
+  {
+    id: 'edutainment-environment-id', // New ID
+    title: 'Tạo Hồ sơ Môi trường Edutainment',
+    description: 'Phân tích kịch bản để tạo hồ sơ chi tiết cho các môi trường, bối cảnh trừu tượng.',
+    icon: <i className="fas fa-vector-square"></i>,
+    color: 'from-teal-500 to-cyan-500',
+    category: 'AI Giáo dục/Giải trí',
+    isPromptOnly: true,
+  },
+  {
+    id: 'edutainment-trailer-prompt', // New ID
+    title: 'Tạo Kịch bản Trailer Edutainment',
+    description: 'Tạo kịch bản trailer nhanh, khơi gợi sự tò mò, bao gồm lời thoại và gợi ý hình ảnh.',
+    icon: <i className="fas fa-video"></i>,
+    color: 'from-teal-500 to-cyan-500',
+    category: 'AI Giáo dục/Giải trí',
+    isPromptOnly: true,
+  },
+  {
     id: 'edutainment-creative',
     title: '5. Tạo Nội Dung Sáng Tạo',
     description: 'Tạo gói SEO, ý tưởng thumbnail bắt mắt và các tài sản marketing khác cho video của bạn.',
@@ -147,6 +201,14 @@ export const AI_TOOLS: AITool[] = [
     category: 'Nghiên cứu & Phân tích',
     label: { text: 'Google Search', bgColor: 'bg-green-600', textColor: 'text-white' },
   },
+  {
+    id: 'text-summarizer',
+    title: 'Trình tóm tắt văn bản',
+    description: 'Tóm tắt các bài báo, tài liệu hoặc văn bản dài thành các điểm chính hoặc một đoạn văn ngắn gọn.',
+    icon: <i className="fas fa-compress-alt"></i>,
+    color: 'from-sky-500 to-indigo-500',
+    category: 'Nghiên cứu & Phân tích',
+  },
 ];
 
 // Constants for History AI tool
@@ -164,46 +226,3 @@ export const SUPPORTED_LANGUAGES: { name: string, code: LanguageCode }[] = [
 export const getLanguageName = (code: LanguageCode): string => {
     return SUPPORTED_LANGUAGES.find(lang => lang.code === code)?.name || 'Unknown Language';
 }
-
-export const PROMPT_TEMPLATES = {
-    HISTORICAL_ART_STYLE: `
-<ART_STYLE_GUIDE>
--   **Style:** Cinematic, historically accurate digital painting. Hyper-realistic details for characters and environments.
--   **Lighting:** Dramatic, high-contrast lighting (chiaroscuro effect). Use of natural light sources like sunlight through windows, firelight, or moonlight to create mood.
--   **Composition:** Follow the rule of thirds. Use dynamic camera angles (low angle for power, high angle for vulnerability).
--   **Color Palette:** Rich, desaturated colors for a gritty, authentic feel. Occasional vibrant colors for emphasis on key objects or characters.
--   **Emotion:** Focus on capturing intense, authentic human emotions in facial expressions and body language.
--   **Details:** Include historically accurate clothing, architecture, and artifacts.
-</ART_STYLE_GUIDE>`,
-    HEROIC_HISTORICAL_THUMBNAIL_STYLE: `
-<THUMBNAIL_STYLE_GUIDE>
-- **Style**: Epic, heroic, dramatic digital illustration with a slightly stylized, painterly finish. Focus on creating a powerful, eye-catching image.
-- **Lighting**: Extremely high-contrast, cinematic lighting. Strong rim lighting to separate the character from the background. Volumetric light rays and atmospheric effects (e.g., dust motes, embers).
-- **Composition**: Centered, powerful hero pose. Use of leading lines and a clear focal point. Dynamic angles to enhance the sense of action or importance.
-- **Color Palette**: Saturated, vibrant colors. Often uses a complementary color scheme (e.g., warm oranges/reds against cool blues/teals) to create visual pop.
-- **Emotion**: Intense and determined facial expressions. Convey a sense of power, struggle, or triumph.
-- **Details**: Exaggerated but historically inspired details on armor, weapons, and clothing. The background is often artistic and evocative rather than strictly realistic.
-</THUMBNAIL_STYLE_GUIDE>`,
-    SEO_OPTIMIZATION: `
-<PERSONA>
-You are a YouTube SEO expert and content strategist for history-focused channels.
-</PERSONA>
-
-<TASK>
-Based on the provided video context, generate a complete SEO package. The goal is to maximize discoverability, engagement, and watch time. The output language must be the specified language.
-</TASK>
-
-<RULES>
--   **Titles:** Create 5 compelling, keyword-rich titles. At least two should be "clickbaity" but not misleading. Titles must be under 70 characters.
--   **Description:**
-    -   **[HOOK]** Write a 1-2 sentence hook that grabs attention and states the video's core question.
-    -   **[CONTENT]** Write a 2-3 paragraph summary of the video's content, naturally integrating primary and secondary keywords.
-    -   **[TIMESTAMPS]** Create timestamps for key sections based on the video parts provided.
-    -   **[CTA]** Write a Call-to-Action encouraging likes, subscriptions, and comments. Mention the next video and playlist if provided.
-    -   **[LINKS]** Include placeholder links for social media.
-    -   **[DISCLAIMER]** If requested, include a standard historical content disclaimer.
--   **Hashtags:** Provide 5-7 relevant, broad hashtags.
--   **Tags:** Provide 15-20 specific, long-tail keywords (tags).
--   **Checklist:** Create a pre-publish checklist including items like "Add to playlist," "Create pinned comment," etc.
-</RULES>`
-};

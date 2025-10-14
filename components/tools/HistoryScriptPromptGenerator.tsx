@@ -1,7 +1,8 @@
 import React, { useState, useCallback } from 'react';
 import { Type } from "@google/genai";
 import { useToolState } from '../../contexts/ToolStateContext';
-import { AI_TOOLS, SCRIPT_GENERATOR_MODEL, PROMPT_TEMPLATES } from '../../constants';
+import { AI_TOOLS, SCRIPT_GENERATOR_MODEL } from '../../constants';
+import { USER_FACING_PROMPTS } from '../../constants/prompts';
 // FIX: Added 'ScriptPartImagePrompts' to the import from '../../types'. This type will be created in types.ts.
 import { ScriptPartImagePrompts } from '../../types';
 import Spinner from '../ui/Spinner';
@@ -47,7 +48,14 @@ Ví dụ: { "imagePrompt": "cinematic digital painting of..." }`;
             ? ''
             : `PHONG CÁCH NGHỆ THUẬT:
 Luôn tuân thủ nghiêm ngặt hướng dẫn phong cách nghệ thuật sau đây:
-${PROMPT_TEMPLATES.HISTORICAL_ART_STYLE}\n\n`;
+<ART_STYLE_GUIDE>
+-   **Style:** Cinematic, historically accurate digital painting. Hyper-realistic details for characters and environments.
+-   **Lighting:** Dramatic, high-contrast lighting (chiaroscuro effect). Use of natural light sources like sunlight through windows, firelight, or moonlight to create mood.
+-   **Composition:** Follow the rule of thirds. Use dynamic camera angles (low angle for power, high angle for vulnerability).
+-   **Color Palette:** Rich, desaturated colors for a gritty, authentic feel. Occasional vibrant colors for emphasis on key objects or characters.
+-   **Emotion:** Focus on capturing intense, authentic human emotions in facial expressions and body language.
+-   **Details:** Include historically accurate clothing, architecture, and artifacts.
+</ART_STYLE_GUIDE>\n\n`;
 
         return `VAI TRÒ:
 Bạn là một AI chuyên tạo gợi ý hình ảnh (image prompts) chi tiết, đậm chất điện ảnh cho video tài liệu lịch sử.
@@ -113,8 +121,8 @@ ${outputInstruction}
                     const response = await generate({ model: SCRIPT_GENERATOR_MODEL, contents: prompt, config: { responseMimeType: "application/json", responseSchema: jsonSchema }});
                     
                     if (response) {
-                        // FIX: Cast the parsed JSON to a specific type to avoid 'unknown' type errors.
-                        const result = JSON.parse(response.text) as { imagePrompt: string };
+                        // FIX: Cast the result of JSON.parse to a specific object type to resolve the TypeScript error.
+                        const result = JSON.parse(response.text.replace(/```json\n?|```/g, '')) as { imagePrompt: string };
                         if (result && result.imagePrompt) {
                             newPrompts.parts[part.partIndex].push({ textNote: sentence, imagePrompt: result.imagePrompt });
                         } else {
