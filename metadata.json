@@ -1,0 +1,5 @@
+{
+  "name": "AI Hub Tool",
+  "description": "Một cổng thông tin tập trung để truy cập tất cả các công cụ AI của bạn. Dễ dàng khởi chạy trình tạo ảnh, trợ lý trò chuyện, v.v. từ một trang chủ duy nhất.",
+  "requestFramePermissions": []
+}
